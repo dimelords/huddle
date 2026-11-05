@@ -99,8 +99,9 @@ The client is plain standard library — no dependencies. The pane is a Claude C
 `plugins/huddle`; load it in a session with `claude --plugin-dir plugins/huddle`, and saving a file
 reloads it.
 
-Releases are built by GoReleaser when a `v*` tag is pushed. The binaries and the Homebrew cask are
-published in `dimelords/homebrew-tap`, so Homebrew needs no credentials.
+Releases are built by GoReleaser when a `v*` tag is pushed: the binaries are attached to this
+repository's release, and the Homebrew cask is updated in
+[dimelords/homebrew-tap](https://github.com/dimelords/homebrew-tap).
 
 ```bash
 git tag v0.1.0 && git push origin v0.1.0

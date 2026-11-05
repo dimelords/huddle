@@ -2,9 +2,10 @@
 #
 #   git tag v0.1.0 && git push origin v0.1.0
 #
-# Needs the secret TAP_GITHUB_TOKEN: a fine-grained token with
-# "Contents: read and write" on dimelords/homebrew-tap, where the release and
-# the cask are published.
+# The binaries are attached to this repository's own release. Updating the
+# Homebrew cask in dimelords/homebrew-tap needs the secret
+# HOMEBREW_TAP_GITHUB_TOKEN: a fine-grained token with "Contents: read and
+# write" on that repository.
 name: release
 
 on:
@@ -12,7 +13,7 @@ on:
     tags: ["v*"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   goreleaser:
@@ -32,5 +33,5 @@ jobs:
           version: "~> v2"
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
-          TAP_GITHUB_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}

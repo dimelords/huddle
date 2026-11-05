@@ -1,6 +1,6 @@
-# Release the huddle client: build the binaries, attach them to a release in
-# the tap repository and update the Homebrew cask there, so Homebrew needs no
-# credentials whether or not this repository is public. Run by
+# Release the huddle client: build the binaries, attach them to this
+# repository's own release and update the Homebrew cask in dimelords/homebrew-tap,
+# the same way the other dimelords projects do it. Run by
 # .github/workflows/release.yml on a v* tag.
 #
 #   brew install dimelords/tap/huddle-mcp
@@ -37,9 +37,6 @@ changelog:
       - "^Merge "
 
 release:
-  github:
-    owner: dimelords
-    name: homebrew-tap
   name_template: "huddle-mcp {{ .Version }}"
 
 homebrew_casks:
@@ -50,7 +47,7 @@ homebrew_casks:
     repository:
       owner: dimelords
       name: homebrew-tap
-      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
     commit_author:
       name: huddle release
       email: noreply@github.com
