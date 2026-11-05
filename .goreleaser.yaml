@@ -1,0 +1,65 @@
+# Release the huddle client: build the binaries, attach them to a release in
+# the tap repository and update the Homebrew cask there, so Homebrew needs no
+# credentials whether or not this repository is public. Run by
+# .github/workflows/release.yml on a v* tag.
+#
+#   brew install dimelords/tap/huddle-mcp
+version: 2
+
+project_name: huddle-mcp
+
+builds:
+  - id: huddle-mcp
+    main: ./cmd/huddle-mcp
+    binary: huddle-mcp
+    env:
+      - CGO_ENABLED=0
+    goos: [darwin, linux]
+    goarch: [amd64, arm64]
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+
+archives:
+  - id: huddle-mcp
+    formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - "^Merge "
+
+release:
+  github:
+    owner: dimelords
+    name: homebrew-tap
+  name_template: "huddle-mcp {{ .Version }}"
+
+homebrew_casks:
+  - name: huddle-mcp
+    binaries: [huddle-mcp]
+    homepage: https://github.com/dimelords/huddle
+    description: "The huddle client for Claude Code: the pane's hooks, the channel bridge and image uploads"
+    repository:
+      owner: dimelords
+      name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
+    commit_author:
+      name: huddle release
+      email: noreply@github.com
+    commit_msg_template: "huddle-mcp {{ .Tag }}"
+    # The binaries are not signed or notarized: without this, macOS
+    # quarantines the download and refuses to run it.
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/huddle-mcp"]
+          end

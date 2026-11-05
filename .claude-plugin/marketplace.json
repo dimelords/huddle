@@ -1,0 +1,14 @@
+{
+  "name": "huddle",
+  "owner": {
+    "name": "dimelords"
+  },
+  "plugins": [
+    {
+      "name": "huddle",
+      "source": "./plugins/huddle",
+      "description": "Huddle in a Claude Code pane: threads with your colleagues, the questions waiting for you, and who is here"
+    }
+  ],
+  "description": "The Huddle pane for Claude Code, and the huddle-mcp client command"
+}

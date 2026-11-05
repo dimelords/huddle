@@ -1,0 +1,14 @@
+# Build output
+bin/
+dist/
+
+# Test binaries and coverage
+*.test
+coverage.out
+
+# OS
+.DS_Store
+
+# Claude Code: the project's own settings are shared, personal ones are not
+.claude/*
+!.claude/settings.json

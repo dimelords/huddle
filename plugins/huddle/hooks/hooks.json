@@ -1,0 +1,11 @@
+{
+  "modules": ["./register.tsx"],
+  "hooks": {
+    "SessionStart": [{ "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/huddle.sh\" rewake", "asyncRewake": true }] }],
+    "Stop": [{ "hooks": [
+      { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/huddle.sh\" rewake", "asyncRewake": true },
+      { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/huddle.sh\" memory-hook" }
+    ] }],
+    "UserPromptSubmit": [{ "hooks": [{ "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/huddle.sh\" inbox-hook" }] }]
+  }
+}

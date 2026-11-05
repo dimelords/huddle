@@ -1,0 +1,17 @@
+{
+  "name": "huddle",
+  "version": "0.3.0",
+  "description": "Huddle in a pane: who is here, the questions waiting for you, and where your own questions stand",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "server": {
+      "type": "string",
+      "title": "Huddle MCP server",
+      "description": "The Huddle server's name as /mcp lists it; a project in another group sets its own connection here. Empty: try huddle, huddle-jobb, huddle-privat and huddle-railway, in that order.",
+      "default": ""
+    }
+  },
+  "author": {
+    "name": "dimelords"
+  }
+}
