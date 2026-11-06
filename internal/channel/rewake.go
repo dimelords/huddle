@@ -12,7 +12,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -43,7 +42,7 @@ func Rewake(ctx context.Context, cfg Config, stateDir string, errOut io.Writer) 
 		return 0
 	}
 	defer lock.Close()
-	if err := syscall.Flock(int(lock.Fd()), syscall.LOCK_EX|syscall.LOCK_NB); err != nil {
+	if err := tryLock(lock); err != nil {
 		return 0
 	}
 
@@ -59,11 +58,11 @@ func Rewake(ctx context.Context, cfg Config, stateDir string, errOut io.Writer) 
 		}
 	}
 
-	// The hook's parent is the shell Claude Code spawned. If it is replaced
-	// (we were orphaned), the session is gone and nobody would be woken.
-	parent := os.Getppid()
+	// Stop when the session that started the hook is gone: nobody would be woken.
+	alive, release := watchSession()
+	defer release()
 	backoff := time.Second
-	for ctx.Err() == nil && os.Getppid() == parent {
+	for ctx.Err() == nil && alive() {
 		batch, err := fetch(ctx, cfg, after)
 		if errors.Is(err, errUnauthorized) {
 			cfg.Log.Error("rewake: huddle rejected the token; check HUDDLE_TOKEN")
