@@ -1,9 +1,11 @@
 # Release the huddle client: build the binaries, attach them to this
-# repository's own release and update the Homebrew cask in dimelords/homebrew-tap,
-# the same way the other dimelords projects do it. Run by
-# .github/workflows/release.yml on a v* tag.
+# repository's own release, update the Homebrew cask in dimelords/homebrew-tap
+# (the same way the other dimelords projects do it) and the Scoop manifest in
+# dimelords/scoop-bucket. Run by .github/workflows/release.yml on a v* tag.
 #
 #   brew install dimelords/tap/huddle-mcp
+#   scoop bucket add dimelords https://github.com/dimelords/scoop-bucket
+#   scoop install huddle-mcp
 version: 2
 
 project_name: huddle-mcp
@@ -14,7 +16,7 @@ builds:
     binary: huddle-mcp
     env:
       - CGO_ENABLED=0
-    goos: [darwin, linux]
+    goos: [darwin, linux, windows]
     goarch: [amd64, arm64]
     flags:
       - -trimpath
@@ -24,6 +26,9 @@ builds:
 archives:
   - id: huddle-mcp
     formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 checksum:
@@ -60,3 +65,17 @@ homebrew_casks:
           on_macos do
             run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{ .StagedPath }}/huddle-mcp"]
           end
+
+scoops:
+  - name: huddle-mcp
+    homepage: https://github.com/dimelords/huddle
+    description: "The huddle client for Claude Code: the pane's hooks, the channel bridge and image uploads"
+    license: MIT
+    repository:
+      owner: dimelords
+      name: scoop-bucket
+      token: "{{ .Env.SCOOP_BUCKET_GITHUB_TOKEN }}"
+    commit_author:
+      name: huddle release
+      email: noreply@github.com
+    commit_msg_template: "huddle-mcp {{ .Tag }}"

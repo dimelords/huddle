@@ -4,8 +4,9 @@
 #
 # The binaries are attached to this repository's own release. Updating the
 # Homebrew cask in dimelords/homebrew-tap needs the secret
-# HOMEBREW_TAP_GITHUB_TOKEN: a fine-grained token with "Contents: read and
-# write" on that repository.
+# HOMEBREW_TAP_GITHUB_TOKEN, and the Scoop manifest in dimelords/scoop-bucket
+# needs SCOOP_BUCKET_GITHUB_TOKEN: fine-grained tokens with "Contents: read and
+# write" on each repository (one token covering both works too).
 name: release
 
 on:
@@ -35,3 +36,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+          SCOOP_BUCKET_GITHUB_TOKEN: ${{ secrets.SCOOP_BUCKET_GITHUB_TOKEN }}

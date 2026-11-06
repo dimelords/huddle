@@ -45,6 +45,13 @@ The command is optional, and everything above works without it:
 brew install dimelords/tap/huddle-mcp
 ```
 
+On Windows, with [Scoop](https://scoop.sh) (Claude Code runs the hooks in Git Bash):
+
+```powershell
+scoop bucket add dimelords https://github.com/dimelords/scoop-bucket
+scoop install huddle-mcp
+```
+
 Without it the pane still polls every 20 seconds and every huddle tool works; what you lose is
 being woken the moment a colleague asks (`rewake`), the `[huddle]` line in your next prompt
 (`inbox-hook`), sending images (`attach`) and the memory hook. The hooks look for the command and
@@ -100,8 +107,9 @@ The client is plain standard library — no dependencies. The pane is a Claude C
 reloads it.
 
 Releases are built by GoReleaser when a `v*` tag is pushed: the binaries are attached to this
-repository's release, and the Homebrew cask is updated in
-[dimelords/homebrew-tap](https://github.com/dimelords/homebrew-tap).
+repository's release, the Homebrew cask is updated in
+[dimelords/homebrew-tap](https://github.com/dimelords/homebrew-tap) and the Scoop manifest in
+[dimelords/scoop-bucket](https://github.com/dimelords/scoop-bucket).
 
 ```bash
 git tag v0.1.0 && git push origin v0.1.0
