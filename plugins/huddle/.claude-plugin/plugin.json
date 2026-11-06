@@ -1,6 +1,6 @@
 {
   "name": "huddle",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Huddle in a pane: who is here, the questions waiting for you, and where your own questions stand",
   "types": "./types/index.d.ts",
   "userConfig": {
